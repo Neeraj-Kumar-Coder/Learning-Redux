@@ -1,11 +1,12 @@
 // Importing redux
 const redux = require("redux");
+const reduxLogger = require("redux-logger");
 
 // Out action type
 const BUY_CAKE = "BUY_CAKE";
 const BUY_ICE_CREAM = "BUY_ICE_CREAM";
 
-// Action creator
+// Action creator for cake
 function buy_cake(quantity = 1) {
     // An action is an object with a 'type' property that describes the action
     // actions only describes what happened, but not describe how the applications state would change
@@ -15,6 +16,7 @@ function buy_cake(quantity = 1) {
     };
 };
 
+// Action creator for ice cream
 function buy_ice_cream(quantity = 1) {
     // An action is an object with a 'type' property that describes the action
     // actions only describes what happened, but not describe how the applications state would change
@@ -24,11 +26,12 @@ function buy_ice_cream(quantity = 1) {
     };
 };
 
-// Our initial state
+// Our initial cake state
 const initialCakeState = {
     numberOfCakes: 10
 };
 
+// Our initial ice cream state
 const initialIceCreamState = {
     numberOfIceCreams: 20
 };
@@ -64,13 +67,14 @@ const rootReducer = redux.combineReducers({
     iceCream: iceCreamReducer
 });
 
+// Creating a logger
+const logger = reduxLogger.createLogger();
+
 // Redux store
-const store = redux.createStore(rootReducer);
+const store = redux.createStore(rootReducer, redux.applyMiddleware(logger));
 console.log("Initial State = ", store.getState());
 
-const unsubscribe = store.subscribe(() => {
-    console.log("Updated State = ", store.getState());
-});
+const unsubscribe = store.subscribe(() => { });
 
 store.dispatch(buy_cake(1));
 store.dispatch(buy_cake(2));
